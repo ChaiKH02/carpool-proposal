@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { content } from "../lib/translation";
+import { content, sourceRefs } from "../lib/translation";
+import { SourceLink } from "../lib/component/sourceLink";
 import { 
   MapPin, Car, ShieldCheck, Briefcase, Repeat, TrendingUp, Wallet, Target, 
   Info, CheckCircle2, AlertTriangle, Scale, Users, LayoutDashboard, Flag 
@@ -67,17 +68,20 @@ export default function Home() {
 
           <h2 className="text-3xl font-bold text-[#0a192f] mb-8">{t.page2_summary.title}</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl border-t-4 border-red-500 shadow-sm">
+            <div className="bg-white p-8 rounded-2xl border-t-4 border-red-500 shadow-sm flex flex-col">
               <h3 className="text-xl font-bold mb-3">{t.page2_summary.problemTitle}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{t.page2_summary.problemDesc}</p>
+              <p className="text-slate-600 text-sm leading-relaxed flex-grow">{t.page2_summary.problemDesc}</p>
+              <SourceLink keys={sourceRefs.summary_problem} className="mt-4" />
             </div>
-            <div className="bg-white p-8 rounded-2xl border-t-4 border-teal-500 shadow-sm">
+            <div className="bg-white p-8 rounded-2xl border-t-4 border-teal-500 shadow-sm flex flex-col">
               <h3 className="text-xl font-bold mb-3">{t.page2_summary.propTitle}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{t.page2_summary.propDesc}</p>
+              <p className="text-slate-600 text-sm leading-relaxed flex-grow">{t.page2_summary.propDesc}</p>
+              <SourceLink keys={sourceRefs.summary_proposition} className="mt-4" />
             </div>
-            <div className="bg-white p-8 rounded-2xl border-t-4 border-[#0a192f] shadow-sm">
+            <div className="bg-white p-8 rounded-2xl border-t-4 border-[#0a192f] shadow-sm flex flex-col">
               <h3 className="text-xl font-bold mb-3">{t.page2_summary.modelTitle}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{t.page2_summary.modelDesc}</p>
+              <p className="text-slate-600 text-sm leading-relaxed flex-grow">{t.page2_summary.modelDesc}</p>
+              <SourceLink keys={sourceRefs.summary_model} className="mt-4" />
             </div>
           </div>
         </motion.div>
@@ -90,9 +94,10 @@ export default function Home() {
           <p className="text-lg text-slate-600 mb-10 max-w-3xl">{t.page3_problem.subtitle}</p>
           <div className="grid md:grid-cols-3 gap-6">
             {t.page3_problem.cards.map((card, idx) => (
-              <motion.div key={idx} variants={fadeUp} className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+              <motion.div key={idx} variants={fadeUp} className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 flex flex-col">
                 <h4 className="font-bold text-lg mb-3 text-slate-800">{card.title}</h4>
-                <p className="text-slate-600 text-sm leading-relaxed">{card.desc}</p>
+                <p className="text-slate-600 text-sm leading-relaxed flex-grow">{card.desc}</p>
+                <SourceLink keys={sourceRefs[`problem_card_${idx}`]} className="mt-4" />
               </motion.div>
             ))}
           </div>
@@ -109,8 +114,14 @@ export default function Home() {
               <div className="bg-[#0a192f] text-white p-8 rounded-2xl mb-6 shadow-lg">
                 <p className="font-semibold text-teal-400 mb-4">{t.page4_5_market.marketFrame}</p>
                 <div className="space-y-4">
-                  <div className="bg-white/10 p-4 rounded-lg text-sm border border-white/10"><MapPin className="inline w-4 h-4 mr-2"/>{t.page4_5_market.hubs}</div>
-                  <div className="bg-white/10 p-4 rounded-lg text-sm border border-white/10"><Users className="inline w-4 h-4 mr-2"/>{t.page4_5_market.clusters}</div>
+                  <div className="bg-white/10 p-4 rounded-lg text-sm border border-white/10">
+                    <MapPin className="inline w-4 h-4 mr-2"/>{t.page4_5_market.hubs}
+                    <SourceLink keys={sourceRefs.market_hubs} tone="dark" className="mt-3" />
+                  </div>
+                  <div className="bg-white/10 p-4 rounded-lg text-sm border border-white/10">
+                    <Users className="inline w-4 h-4 mr-2"/>{t.page4_5_market.clusters}
+                    <SourceLink keys={sourceRefs.market_clusters} tone="dark" className="mt-3" />
+                  </div>
                 </div>
               </div>
               <p className="text-teal-600 font-bold bg-teal-50 px-4 py-3 rounded-lg border border-teal-100">{t.page4_5_market.beachhead}</p>
@@ -121,6 +132,7 @@ export default function Home() {
                 <div key={idx} className="bg-white border border-slate-200 p-6 rounded-xl shadow-sm">
                   <h4 className="font-bold text-slate-800 mb-2">{cust.type}</h4>
                   <p className="text-sm text-slate-600 leading-relaxed">{cust.desc}</p>
+                  {idx === 0 && <SourceLink keys={sourceRefs.market_customers} className="mt-3" />}
                 </div>
               ))}
             </div>
@@ -162,8 +174,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4 rounded-xl text-sm font-medium flex items-start gap-3">
-            <Info className="shrink-0 mt-0.5 w-5 h-5"/> {t.page7_business.gate}
+          <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4 rounded-xl text-sm font-medium flex flex-col sm:flex-row sm:items-start gap-3">
+            <div className="flex items-start gap-3">
+              <Info className="shrink-0 mt-0.5 w-5 h-5"/> {t.page7_business.gate}
+            </div>
+            <SourceLink keys={sourceRefs.business_gate} className="sm:ml-auto" />
           </div>
         </motion.div>
       </section>
@@ -174,12 +189,16 @@ export default function Home() {
           <div>
             <h2 className="text-2xl font-bold text-[#0a192f] mb-4"><LayoutDashboard className="inline text-teal-500 mb-1 mr-2"/>{t.page8_9_landscape_regulatory.compTitle}</h2>
             <p className="text-slate-600 text-sm mb-6 leading-relaxed">{t.page8_9_landscape_regulatory.compDesc}</p>
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-sm text-slate-600 font-mono flex flex-col gap-3">
-              <div><span className="font-bold text-slate-800">KLCarPool:</span> Reported waitlist/pre-launch.</div>
-              <div><span className="font-bold text-slate-800">APRide:</span> University-focused.</div>
-              <div><span className="font-bold text-slate-800">Scoutrans:</span> Limited visible footprint.</div>
-              <div><span className="font-bold text-slate-800">Grab GroupRide:</span> Paid-driver unit economics.</div>
-              <div><span className="font-bold text-slate-800">TRIBBU / BlaBlaCar:</span> International reference.</div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-sm text-slate-600 flex flex-col gap-4">
+              {t.page8_9_landscape_regulatory.competitors.map((comp, idx) => (
+                <div key={idx} className={idx > 0 ? "pt-4 border-t border-slate-100" : ""}>
+                  <div className="flex items-start justify-between gap-3 flex-wrap">
+                    <span className="font-bold text-slate-800 font-mono">{comp.name}:</span>
+                    <SourceLink keys={sourceRefs[comp.key]} />
+                  </div>
+                  <p className="mt-1 leading-relaxed">{comp.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
           <div>
@@ -187,9 +206,10 @@ export default function Home() {
             <p className="text-slate-500 text-sm mb-6 italic">{t.page8_9_landscape_regulatory.regDesc}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {t.page8_9_landscape_regulatory.regs.map((reg, idx) => (
-                <div key={idx} className="bg-white border-l-4 border-[#0a192f] p-5 rounded-r-xl shadow-sm">
+                <div key={idx} className="bg-white border-l-4 border-[#0a192f] p-5 rounded-r-xl shadow-sm flex flex-col">
                   <h4 className="font-bold text-sm mb-2">{reg.title}</h4>
-                  <p className="text-xs text-slate-600">{reg.desc}</p>
+                  <p className="text-xs text-slate-600 flex-grow">{reg.desc}</p>
+                  <SourceLink keys={sourceRefs[reg.key]} className="mt-3" />
                 </div>
               ))}
             </div>
@@ -238,6 +258,9 @@ export default function Home() {
                   ))}
                 </tbody>
               </table>
+              <div className="p-4 border-t border-white/10">
+                <SourceLink keys={sourceRefs.financials_trajectory} tone="dark" />
+              </div>
             </div>
 
             {/* Funds Table */}
